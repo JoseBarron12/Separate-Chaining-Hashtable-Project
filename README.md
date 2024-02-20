@@ -1,71 +1,75 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/fvlzbqi8)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-718a45dd9cf7e7f842a935f5ebbe5719a5e09af4491e668f4dbf3b35d5cca122.svg)](https://classroom.github.com/online_ide?assignment_repo_id=12959809&assignment_repo_type=AssignmentRepo)
-### CSCI 340 - Data Structures and Algorithm Analysis
+# Hash Table Program
 
 **Data Structure:**  Hash Table <BR>
 **Programming Focus:** C++ development, construction of hash table using STL vector
 
-# Hashing with Separate Chaining and Indirect Sorting
+## Overview
 
-For this computer assignment, you are to write a C++ program to create, search, print, and sort an item inventory. The item inventory information will be kept in a sequentially allocated table with a given size of entries with the default size TBL_SZ = 31. Each table entry is described by the following structure, as specified in the header file **entry.h**.
+Welcome to the Hash Table Program! This C++ program implements a hash table with separate chaining and indirect sorting. The program allows users to insert records, search for records, and print the hash table entries. The hash table is implemented with a custom hash function, and duplicate keys are handled appropriately.
 
-`struct Entry{
-    string key; 
-    string desc; 
-    unsigned num;
-};
-`
+## Files
 
-The `key` field is the item identifier, which is two uppercase letters followed by a decimal digit (e.g., AD5 or XR8). The `desc` field contains the item description, and the `num` field contains the number of copies of an item in the inventory. The item table can be accessed directly using the separate chaining technique to resolve the collisions. The private hash function expects an item key as the input argument, and it returns an integer in the range: **0 ... (TBL_SZ−1)**, which has the following prototype: `int HT::hash(const string& key)` and is implemented in **hash.cc** you **may not** modify the hash function.
+1. `htable.h` (given): Header file containing the class definition for the hash table.
+2. `htable.cc`: Implementation file for the hash table class with member functions.
+3. `entry.h` (given): Header file defining the structure of an entry in the hash table.
+4. `hashmain.h` (given): Header file containing function prototypes and constants for the main program.
+5. `hashmain.cc` (given): Main program file where users interact with the hash table.
 
-The item inventory system is defined as a class, named as **HT**, and its definition is given in the header file **htable.h**, which is in the same directory with **entry.h**. The hash table **hTable** (container of type `vector<list<Entry>>`) is used to store the entries of the item inventory, and the pointer table **pTable** (container of type `vector<Entry *>`) is used to store the addresses of the entries in **hTable**. 
+## Hash Table Operations
 
-The member functions of HT are described below:
+The program supports the following operations:
 
-- `HT::HT(const unsigned &hs)` The hash table, which is a **vector of list<Entry>** containers, can be created dynamically for a given fixed size `hs` by its constructor. Initially, the pointer table, which is a **vector of type Entry \***, is empty but its size will increase dynamically after inserting a new `Entry` item in this table, which is the address of the inserted item in the corresponding list container.
+- **Insert Record (`A`):** Inserts a new record into the hash table.
+- **Search Record (`S`):** Searches for a record with a specified key in the hash table.
+- **Print Hash Table (`P`):** Prints all active entries of the hash table.
+- **Sorted Print (`P`):** Prints the hash table entries in sorted order based on the keys.
 
-- `HT::~HT()` Since the hash table is implemented as a **vector of list containers**, the destructor of the hash table first frees the memory for all list containers and then frees the memory for the vector containers for the hash table and the pointer table.
+## Input Format
 
-- `void HT::insert(const Entry &e)` This public function inserts the record of the item e:(key, desc, num) in the hash table. If the key already exists in the table, then the function prints an error message; otherwise, it prints the index value of the inserted record in the hash table and it also inserts the address of the record (in the hash table) into the pointer table. Since each element of the hash table is implemented as a list container with the data type `Entry`, in the case of a collision, simply insert the new record at the beginning of the corresponding list container. To check if the record `e` is already in the hash table, you can use the function `find_if()` in the STL. To compare the key of the record `e` with the keys of the elements in the list container, `list<Entry> &l = hTable[i]`, in hash table position `i`, you can use either a predicate or a lambda for the compare component of the `find_if()` function. If the item is a new item, then the `find_if()` function returns `l.cend()`.
+The program reads input from a file where each line represents a command or record. The commands are as follows:
 
-- `void HT::search(const string& key)` This public function searches the hash table for a record with key. As in the `insert()` function, you can use the `find_if()` function from in the STL to search for a record in the hash table. If the search is successful, `search()` function prints the information for the record; otherwise, it prints an error message.
+- `A:key:num:description`: Insert a record with the given key, number, and description.
+- `S:key`: Search for a record with the specified key.
+- `P`: Print all active entries in the hash table.
+- `S`: Print the sorted hash table.
 
-- `void HT::hTable_print()` This public function prints the subscript and the contents of all (and only) the active records in the hash table.
+## Sample Test Runs
 
-- `void HT::pTable_print()` This public function prints the contents of all (and only) the active records in the hash table. Since the records need to be printed in alphabetical order with their key values, this function first sort the elements of the pointer table using the `sort()` function in the STL. The `cmp` component for sorting,` bool cmp(Entry *p, Entry *q)`, returns **true** if the key of the item in location `p` comes before the item in location `q` in alphabetical order.
+Two sample test runs are provided: `hashsample01.in` and `hashsample02.in`, along with their corresponding expected output (`hashsample01.refout` and `hashsample02.refout`).
 
-The input data consists of three types of records, as described below:
+## Skills Showcase
 
-- Insertion records have the format `A:item-key:item-number:item-description:`
-- Search records have the format `S:item-key:`
-- Table print records have the format `P:`
+This project showcases proficiency in several key areas:
 
-The records stored in the inventory system have unique keys. Duplicate keys are not permitted.
+### Programming Languages
 
-The `main()` routine in the driver program **hashmain.cc** (provided), implements the following tasks:
+- **C++:**
+  - Utilizes C++ language features, including object-oriented principles, to implement the hash table program.
+  - Demonstrates a solid understanding of C++ concepts such as classes, member functions, and file I/O.
 
-1. Prints a header message.
+### Data Structures
 
-2. Creates an empty hash table.
+- **Hash Tables:**
+  - Implements a hash table with separate chaining and indirect sorting.
+  - Handles collisions and duplicate keys appropriately, showcasing an understanding of hash table design.
 
-3. Reads the entire input file, and process each record as follows: if the record transaction code is:
+- **Linked Lists:**
+  - Utilizes linked lists as part of the underlying data structure for separate chaining.
 
-    - **A** searches the hash table for a record having the same key. If such a record is found, prints an appropriate “*duplicate key*” message, and ignores the information from the input record. Otherwise, inserts the record in the hash table, and places the address of the record in the pointer table. 
-    - **S** searches the hash table for a record with a given key and prints the key and other information for the record. If the record is not found in the table, it prints an appropriate “*key not found*” message.
-    - **P** prints the subscript and contents of each active record in the hash table.
+### Problem Solving
 
-4. After the data in the input file has been read, and the tables have been constructed, sorts the records in the pointer table, and then prints the records in the hash table in ascending order with the key field.
+- **Algorithm Design:**
+  - Designs and implements a custom hash function for efficient record insertion.
+  - Implements sorting logic for displaying entries in sorted order.
 
-5. Prints a program termination message.
+- **Debugging:**
+  - Ensures the program's correctness through thorough testing and debugging.
 
-**Assignment Notes:**
+### Testing
 
-- Include any necessary headers and add necessary global constants.
+- **Test Runs:**
+  - Includes sample test runs with corresponding expected output.
+  - Demonstrates the robustness and correctness of the hash table program.
 
-- You are not allowed to use any I/O functions from the C library, such as scanf or printf. Instead, use the I/O functions from the C++ library, such as cin or cout.
+These skills collectively showcase the ability to design, implement, and document a C++ program that effectively addresses the challenges of hash table implementation.
 
-- Add documentation to the appropriate source files as discussed in your class.
-
--  Prepare your Makefile (you need to construct and add Makefile) so that the TA only needs to invoke the command make to compile your source file and produce the executable file **hash**. This will then compile **hashmain.cc** (contains the `main()` routine and some auxiliary functions for reading and printing data) of the driver program and your source file **htable.cc** (contains your implementations of the member functions of HT). Make sure you use exactly the same file names specified here, i.e. **hash**, in your Makefile, otherwise your **submission will get 0 points**. You can test your program with sample datasets **hashsample01.in** and **hashsample02.in** and compare it against the two sample outputs **hashsample01.refout** and **hashsample02.refout**.
-
-When your program is ready for grading, ***commit*** and ***push*** your local repository to remote git classroom repository and follow the _**Assignment Submission Instructions**_.
